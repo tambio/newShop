@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiShop</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1, h2{
+            color: #333;
+        }
+
+        p {
+            color: #666;
+        }
+
+        .category-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .category-button {
+            background-color: #3498db;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .category-button:hover {
+            background-color: #2079b0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Добро пожаловать в веб-приложения магазина MultiShop</h1>
+    <h2>Выберите категорию для просмотра данных</h2>
+    <p>Данные для просмотра:</p>
+    <div class="category-buttons">
+        <button class="category-button" onclick="window.location.href='{{ url_for('show_brand') }}'">Бренды</button>
+        <button class="category-button" onclick="window.location.href='{{ url_for('show_categories') }}'">Категории</button>
+        <button class="category-button" onclick="window.location.href='{{ url_for('show_products') }}'">Вещи</button>
+        <button class="category-button" onclick="window.location.href='{{ url_for('show_warehouses') }}'">Склад</button>
+        <button class="category-button" onclick="window.location.href='{{ url_for('show_orders') }}'">Заказы</button>
+        <button class="category-button" onclick="window.location.href='{{ url_for('show_ordered_products') }}'">Заказанные вещи </button>
+        <button class="category-button" onclick="window.location.href='{{ url_for('show_customers') }}'">Покупатели</button>
+        <button class="category-button" onclick="window.location.href='{{ url_for('show_inventory') }}'">Наличие товара</button>
+        <button class="category-button" onclick="window.location.href='{{ url_for('show_cart_products') }}'">Покупная корзина</button>
+        <button class="category-button" onclick="window.location.href='{{ url_for('show_feedbacks') }}'">Отзывы</button>
+        <button class="category-button" onclick="window.location.href='{{ url_for('show_info') }}'">Информация о заказах</button>
+        <button class="category-button" onclick="window.location.href='{{ url_for('show_deliveries') }}'">Доставки</button>
+    </div>
+</body>
+</html>

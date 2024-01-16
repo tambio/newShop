@@ -1,66 +1,54 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MultiShop</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            text-align: center;
+    <title>MultiShop </title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function fetchData(query) {
+            $.get(`/query?query=${query}`, function(data) {
+                updateTable(data);
+            });
         }
 
-        h1, h2{
-            color: #333;
-        }
+        function updateTable(data) {
+            var table = '<table border="1"><tr>';
+            data.column_names.forEach(function (column) {
+                table += '<th>' + column + '</th>';
+            });
+            table += '</tr>';
 
-        p {
-            color: #666;
-        }
+            data.data.forEach(function (row) {
+                table += '<tr>';
+                row.forEach(function (value) {
+                    table += '<td>' + value + '</td>';
+                });
+                table += '</tr>';
+            });
 
-        .category-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
+            table += '</table>';
+            document.getElementById('data-container').innerHTML = table;
         }
-
-        .category-button {
-            background-color: #3498db;
-            color: #fff;
-            font-size: 16px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .category-button:hover {
-            background-color: #2079b0;
-        }
-    </style>
+    </script>
 </head>
 <body>
-    <h1>Добро пожаловать в веб-приложения магазина MultiShop</h1>
-    <h2>Выберите категорию для просмотра данных</h2>
-    <p>Данные для просмотра:</p>
-    <div class="category-buttons">
-        <button class="category-button" onclick="window.location.href='{{ url_for('show_brand') }}'">Бренды</button>
-        <button class="category-button" onclick="window.location.href='{{ url_for('show_categories') }}'">Категории</button>
-        <button class="category-button" onclick="window.location.href='{{ url_for('show_products') }}'">Вещи</button>
-        <button class="category-button" onclick="window.location.href='{{ url_for('show_warehouses') }}'">Склад</button>
-        <button class="category-button" onclick="window.location.href='{{ url_for('show_orders') }}'">Заказы</button>
-        <button class="category-button" onclick="window.location.href='{{ url_for('show_ordered_products') }}'">Заказанные вещи </button>
-        <button class="category-button" onclick="window.location.href='{{ url_for('show_customers') }}'">Покупатели</button>
-        <button class="category-button" onclick="window.location.href='{{ url_for('show_inventory') }}'">Наличие товара</button>
-        <button class="category-button" onclick="window.location.href='{{ url_for('show_cart_products') }}'">Покупная корзина</button>
-        <button class="category-button" onclick="window.location.href='{{ url_for('show_feedbacks') }}'">Отзывы</button>
-        <button class="category-button" onclick="window.location.href='{{ url_for('show_info') }}'">Информация о заказах</button>
-        <button class="category-button" onclick="window.location.href='{{ url_for('show_deliveries') }}'">Доставки</button>
-    </div>
+    <h1>Данные доступные к просмотру: </h1>
+    <button onclick="fetchData('SELECT * FROM brands')">Show Brands</button>
+    <button onclick="fetchData('SELECT * FROM categories')">Show Categories</button>
+    <button class="category-button" onclick="fetchData('SELECT * FROM products')">Вещи</button>
+    <button class="category-button" onclick="fetchData('SELECT * FROM warehouse')">Склад</button>
+    <button class="category-button" onclick="fetchData('SELECT * FROM orders')">Заказы</button>
+    <button class="category-button" onclick="fetchData('SELECT * FROM ordered_products')">Заказанные вещи</button>
+    <button class="category-button" onclick="fetchData('SELECT * FROM customers')">Покупатели</button>
+    <button class="category-button" onclick="fetchData('SELECT * FROM product_availability')">Наличие товара</button>
+    <button class="category-button" onclick="fetchData('SELECT * FROM shopping_cart')">Покупная корзина</button>
+    <button class="category-button" onclick="fetchData('SELECT * FROM reviews')">Отзывы</button>
+    <button class="category-button" onclick="fetchData('SELECT o.order_id, o.order_date, c.customer_name, d.delivery_date, d.delivery_address FROM orders o JOIN customers c ON o.customer_id = c.customer_id LEFT JOIN delivery d ON o.order_id = d.order_id')">Информация о заказах</button>
+    <button class="category-button" onclick="fetchData('SELECT * FROM delivery')">Доставки</button>
+
+    <div id="data-container"></div>
 </body>
+</html>
 </html>

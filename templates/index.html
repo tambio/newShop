@@ -1,54 +1,51 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MultiShop </title>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        function fetchData(query) {
-            $.get(`/query?query=${query}`, function(data) {
-                updateTable(data);
-            });
-        }
-
-        function updateTable(data) {
-            var table = '<table border="1"><tr>';
-            data.column_names.forEach(function (column) {
-                table += '<th>' + column + '</th>';
-            });
-            table += '</tr>';
-
-            data.data.forEach(function (row) {
-                table += '<tr>';
-                row.forEach(function (value) {
-                    table += '<td>' + value + '</td>';
-                });
-                table += '</tr>';
-            });
-
-            table += '</table>';
-            document.getElementById('data-container').innerHTML = table;
-        }
-    </script>
 </head>
 <body>
-    <h1>Данные доступные к просмотру: </h1>
-    <button onclick="fetchData('SELECT * FROM brands')">Show Brands</button>
-    <button onclick="fetchData('SELECT * FROM categories')">Show Categories</button>
-    <button class="category-button" onclick="fetchData('SELECT * FROM products')">Вещи</button>
-    <button class="category-button" onclick="fetchData('SELECT * FROM warehouse')">Склад</button>
-    <button class="category-button" onclick="fetchData('SELECT * FROM orders')">Заказы</button>
-    <button class="category-button" onclick="fetchData('SELECT * FROM ordered_products')">Заказанные вещи</button>
-    <button class="category-button" onclick="fetchData('SELECT * FROM customers')">Покупатели</button>
-    <button class="category-button" onclick="fetchData('SELECT * FROM product_availability')">Наличие товара</button>
-    <button class="category-button" onclick="fetchData('SELECT * FROM shopping_cart')">Покупная корзина</button>
-    <button class="category-button" onclick="fetchData('SELECT * FROM reviews')">Отзывы</button>
-    <button class="category-button" onclick="fetchData('SELECT o.order_id, o.order_date, c.customer_name, d.delivery_date, d.delivery_address FROM orders o JOIN customers c ON o.customer_id = c.customer_id LEFT JOIN delivery d ON o.order_id = d.order_id')">Информация о заказах</button>
-    <button class="category-button" onclick="fetchData('SELECT * FROM delivery')">Доставки</button>
+    <h1>Данные доступные к просмотру тест2: </h1>
+
+    <form method="GET" action="/query">
+        <button type="submit" name="query" value="SELECT * FROM brands">Show Brands</button>
+        <button type="submit" name="query" value="SELECT * FROM categories">Show Categories</button>
+        <button type="submit" name="query" value="SELECT * FROM products">Вещи</button>
+        <button type="submit" name="query" value="SELECT * FROM warehouse">Склад</button>
+        <button type="submit" name="query" value="SELECT * FROM orders">Заказы</button>
+        <button type="submit" name="query" value="SELECT * FROM ordered_products">Заказанные вещи</button>
+        <button type="submit" name="query" value="SELECT * FROM customers">Покупатели</button>
+        <button type="submit" name="query" value="SELECT * FROM product_availability">Наличие товара</button>
+        <button type="submit" name="query" value="SELECT * FROM shopping_cart">Покупная корзина</button>
+        <button type="submit" name="query" value="SELECT * FROM reviews">Отзывы</button>
+        <button type="submit" name="query" value="SELECT o.order_id, o.order_date, c.customer_name, d.delivery_date, d.delivery_address FROM orders o JOIN customers c ON o.customer_id = c.customer_id LEFT JOIN delivery d ON o.order_id = d.order_id">Информация о заказах</button>
+        <button type="submit" name="query" value="SELECT * FROM delivery">Доставки</button>
+    </form>
+
+    {% if data %}
+    <table border="1">
+        <thead>
+            <tr>
+                {% for column in data.column_names %}
+                    <th>{{ column }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in data.data %}
+                <tr>
+                    {% for value in row %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
 
     <div id="data-container"></div>
 </body>
-</html>
 </html>

@@ -9,7 +9,7 @@ conn = psycopg2.connect(
 
 cur = conn.cursor()
 
-registrationEL = input("Вы хотите зарегестрироваться, да или нет?: ")
+registrationEL = input("Вы хотите зарегестрироваться, да \ нет?: ")
 
 if registrationEL == "да":
     new_username = input("Заполните username: ")

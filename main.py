@@ -14,13 +14,13 @@ def fetch_data(query):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', data=None)
 
-@app.route('/query')
+@app.route('/query', methods=['GET'])
 def handle_query():
     query = request.args.get('query', '')
     data = fetch_data(query)
-    return jsonify(data)
+    return render_template('index.html', data=data)
 
 if __name__ == '__main__':
     app.run(debug=True)

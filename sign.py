@@ -30,7 +30,7 @@ rows = cur.fetchall()
 if rows:
     print("Успешная аутентификация")
 else:
-    print("Неверные учетные данные")
+    print("Неверные учетные данные!")
 
 cur.close()
 conn.close()

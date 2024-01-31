@@ -14,7 +14,12 @@ def fetch_data(query):
 
 @app.route('/')
 def index():
-    return render_template('index.html', data=None)
+    return render_template('index.html')
+
+@app.route('/sign.html')
+def sign():
+    return render_template('sign.html')
+
 
 @app.route('/query', methods=['GET'])
 def handle_query():
